@@ -1,4 +1,4 @@
-package miku.bai_ze_li.genesis.render.api;
+﻿package miku.bai_ze_li.genesis.render.api;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -149,4 +149,3 @@ public class TrailHelp {
                 .endVertex();
     }
 }
-

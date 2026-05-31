@@ -1,9 +1,4 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
-package miku.bai_ze_li.genesis.core.api.text;
+﻿package miku.bai_ze_li.genesis.core.api.text;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
