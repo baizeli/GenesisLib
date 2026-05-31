@@ -1,4 +1,4 @@
-package miku.bai_ze_li;
+package miku.bai_ze_li.lib;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;

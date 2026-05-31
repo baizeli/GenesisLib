@@ -1,4 +1,4 @@
-package miku.bai_ze_li;
+package miku.bai_ze_li.lib;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -36,7 +36,7 @@ public class Config {
     public static Set<Item> items;
 
     private static boolean validateItemName(final Object obj) {
-        return obj instanceof final String itemName && ForgeRegistries.ITEMS.containsKey(new ResourceLocation(itemName));
+        return obj instanceof final String itemName && ForgeRegistries.ITEMS.containsKey(1new ResourceLocation(itemName));
     }
 
     @SubscribeEvent
