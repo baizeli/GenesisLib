@@ -1,4 +1,4 @@
-﻿package miku.bai_ze_li.genesis.core.api.attribute;
+package miku.bai_ze_li.genesis.core.api.attribute;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;

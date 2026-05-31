@@ -1,0 +1,30 @@
+{
+  "blend": {
+    "func": "add",
+    "srcrgb": "srcalpha",
+    "dstrgb": "1-srcalpha"
+  },
+  "vertex": "genesis_lib:held_item_bloom",
+  "fragment": "genesis_lib:held_item_bloom",
+  "samplers": [
+    { "name": "DiffuseSampler" },
+    { "name": "NearBlurSampler" },
+    { "name": "FarBlurSampler" }
+  ],
+  "attributes": [
+    "Position",
+    "UV0"
+  ],
+  "uniforms": [
+    { "name": "ScreenSize", "type": "float", "count": 2, "values": [ 1.0, 1.0 ] },
+    { "name": "OutlineColor", "type": "float", "count": 4, "values": [ 1.0, 1.0, 1.0, 1.0 ] },
+    { "name": "SecondaryColor", "type": "float", "count": 4, "values": [ 1.0, 1.0, 1.0, 1.0 ] },
+    { "name": "AlphaThreshold", "type": "float", "count": 1, "values": [ 0.1 ] },
+    { "name": "Opacity", "type": "float", "count": 1, "values": [ 0.95 ] },
+    { "name": "GlowStrength", "type": "float", "count": 1, "values": [ 0.55 ] },
+    { "name": "BloomStrength", "type": "float", "count": 1, "values": [ 1.2 ] },
+    { "name": "BloomRadius", "type": "float", "count": 1, "values": [ 2.0 ] },
+    { "name": "ColorMode", "type": "float", "count": 1, "values": [ 1.0 ] },
+    { "name": "Time", "type": "float", "count": 1, "values": [ 0.0 ] }
+  ]
+}

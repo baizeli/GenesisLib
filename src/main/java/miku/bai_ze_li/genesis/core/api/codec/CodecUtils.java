@@ -1,4 +1,4 @@
-﻿package miku.bai_ze_li.genesis.core.api.codec;
+package miku.bai_ze_li.genesis.core.api.codec;
 
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;

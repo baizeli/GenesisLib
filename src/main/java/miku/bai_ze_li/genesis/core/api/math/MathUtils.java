@@ -1,4 +1,4 @@
-﻿package miku.bai_ze_li.genesis.core.api.math;
+package miku.bai_ze_li.genesis.core.api.math;
 
 public class MathUtils {
     public static final double torad = 0.017453292519943;

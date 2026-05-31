@@ -1,4 +1,4 @@
-﻿package miku.bai_ze_li.genesis.render.api;
+package miku.bai_ze_li.genesis.render.api;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.client.renderer.RenderType;

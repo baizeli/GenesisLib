@@ -11,6 +11,9 @@
     "minecraftforge.event.entity.living.LivingHurtEventMixin"
   ],
   "client": [
+    "minecraft.client.renderer.ParticleAccessor",
+    "minecraft.client.renderer.ParticleEngineAccessor",
+    "minecraft.client.renderer.PostChainAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
