@@ -11,10 +11,13 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Supplier;
 
 @OnlyIn(Dist.CLIENT)
 public class CrescentBladeParticle extends Particle {
+    private static final List<CrescentBladeParticle> ACTIVE_PARTICLES = new CopyOnWriteArrayList<>();
     private static Supplier<? extends ParticleOptions> bloodDripHangParticle;
 
     public final float radius;
@@ -24,8 +27,13 @@ public class CrescentBladeParticle extends Particle {
         bloodDripHangParticle = particle;
     }
 
+    public static List<CrescentBladeParticle> activeParticles() {
+        return ACTIVE_PARTICLES;
+    }
+
     public CrescentBladeParticle(ClientLevel level, double x, double y, double z, Vec3 dir, float radius) {
         super(level, x, y, z, dir.x, dir.y, dir.z);
+        ACTIVE_PARTICLES.add(this);
         this.radius = radius;
         this.setLifetime(500);  // 寿命，可调
         this.setAlpha(1f);
@@ -40,6 +48,28 @@ public class CrescentBladeParticle extends Particle {
 
     public Vec3 getLastVelocity() {
         return lastVelocity;
+    }
+
+    public double renderX(float partialTicks) {
+        return net.minecraft.util.Mth.lerp(partialTicks, this.xo, this.x);
+    }
+
+    public double renderY(float partialTicks) {
+        return net.minecraft.util.Mth.lerp(partialTicks, this.yo, this.y);
+    }
+
+    public double renderZ(float partialTicks) {
+        return net.minecraft.util.Mth.lerp(partialTicks, this.zo, this.z);
+    }
+
+    public Vec3 velocity() {
+        return new Vec3(this.xd, this.yd, this.zd);
+    }
+
+    @Override
+    public void remove() {
+        ACTIVE_PARTICLES.remove(this);
+        super.remove();
     }
 
     @Override

@@ -141,6 +141,26 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+    maven {
+        url "https://maven.tterrag.com/"
+    }
+    maven {
+        url "https://maven.architectury.dev/"
+    }
+    maven {
+        url "https://maven.latvian.dev/releases"
+    }
+    maven {
+        name = "Flemmli97"
+        url = "https://maven.blazing-coop.net/releases"
+    }
+    maven {
+        url 'https://maven.blamejared.com'
+    }
+    flatDir {
+        dirs '../EternisStarrySky/libs'
+    }
+    mavenCentral()
 }
 
 dependencies {
@@ -167,6 +187,8 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    implementation name: "l2library-${l2library_version}-slim"
+    implementation name: "l2serial-1.2.2"
     compileOnly "curse.maven:curios-309927:6418456"
     compileOnly "curse.maven:oculus-581495:6020952"
 
