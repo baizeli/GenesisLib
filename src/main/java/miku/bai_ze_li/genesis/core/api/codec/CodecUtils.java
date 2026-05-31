@@ -1,4 +1,4 @@
-package miku.bai_ze_li.genesis.core.api.codec;
+﻿package miku.bai_ze_li.genesis.core.api.codec;
 
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
@@ -11,16 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 鎻愪緵鍙噸鐢ㄧ殑Codec鍒涘缓宸ュ叿鏂规硶
- */
 public class CodecUtils {
 
-    /**
-     * 鍒涘缓EntityType鍒癐nteger鐨勬槧灏凜odec
-     * 
-     * @return Codec<Map<EntityType<?>, Integer>>
-     */
     public static Codec<Map<EntityType<?>, Integer>> createEntityTypeCountCodec() {
         return Codec.list(
                 Codec.pair(

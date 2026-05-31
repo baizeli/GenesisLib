@@ -1,10 +1,14 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "miku.bai_ze_li.mixin",
-  "compatibilityLevel": "JAVA_8",
+  "package": "miku.bai_ze_li.genesis.core.mixin",
+  "compatibilityLevel": "JAVA_17",
   "refmap": "genesis_lib.refmap.json",
   "mixins": [
+    "minecraft.world.damagesource.DamageSourceMixin",
+    "minecraftforge.event.entity.living.LivingDamageEventMixin",
+    "minecraftforge.event.entity.living.LivingEventMixin",
+    "minecraftforge.event.entity.living.LivingHurtEventMixin"
   ],
   "client": [
   ],
