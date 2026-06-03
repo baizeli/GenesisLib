@@ -1,0 +1,24 @@
+{
+  "targets": [
+    "genesis_api_vector_buffer",
+    "swap"
+  ],
+  "passes": [
+    {
+      "name": "genesis_api:vector_distort",
+      "intarget": "minecraft:main",
+      "outtarget": "swap",
+      "auxtargets": [
+        {
+          "name": "VectorSampler",
+          "id": "genesis_api_vector_buffer"
+        }
+      ]
+    },
+    {
+      "name": "blit",
+      "intarget": "swap",
+      "outtarget": "minecraft:main"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "targets": [
+    "genesis_api_distort",
+    "swap"
+  ],
+  "passes": [
+    {
+      "name": "genesis_api:distort",
+      "intarget": "minecraft:main",
+      "outtarget": "swap",
+      "auxtargets": [
+        {
+          "name": "DistortSampler",
+          "id": "genesis_api_distort"
+        }
+      ]
+    },
+    {
+      "name": "blit",
+      "intarget": "swap",
+      "outtarget": "minecraft:main"
+    }
+  ]
+}
