@@ -4,9 +4,11 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import miku.bai_ze_li.genesis.api.render.shader.GenesisRenderType;
+import miku.bai_ze_li.genesis.api.render.shader.GenesisShaderCompat;
 import miku.bai_ze_li.genesis.api.render.shader.GenesisShaders;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
@@ -25,11 +27,21 @@ public class BaiZeLiSlashEffect {
     private final float pitch;
     private final float slashTilt;
     private final boolean leftToRight;
+    private final float glowR;
+    private final float glowG;
+    private final float glowB;
+    private final float coreR;
+    private final float coreG;
+    private final float coreB;
 
     private boolean finished = false;
     private static final Random RANDOM = new Random();
 
     public BaiZeLiSlashEffect(Vec3 center, float yaw, float pitch) {
+        this(center, yaw, pitch, 0xFF4AA6FF);
+    }
+
+    public BaiZeLiSlashEffect(Vec3 center, float yaw, float pitch, int argbColor) {
         this.center = center;
         this.yaw = yaw;
         this.pitch = pitch;
@@ -37,6 +49,16 @@ public class BaiZeLiSlashEffect {
         this.leftToRight = RANDOM.nextBoolean();
         float baseTilt = 15.0F + RANDOM.nextFloat() * 45.0F;
         this.slashTilt = leftToRight ? -baseTilt : baseTilt;
+
+        float r = ((argbColor >> 16) & 0xFF) / 255.0F;
+        float g = ((argbColor >> 8) & 0xFF) / 255.0F;
+        float b = (argbColor & 0xFF) / 255.0F;
+        this.glowR = r;
+        this.glowG = g;
+        this.glowB = b;
+        this.coreR = Mth.clamp(1.2F + r * 1.3F, 0.0F, 3.0F);
+        this.coreG = Mth.clamp(1.2F + g * 1.3F, 0.0F, 3.0F);
+        this.coreB = Mth.clamp(1.2F + b * 1.3F, 0.0F, 3.0F);
     }
 
     public void tick() {
@@ -60,8 +82,16 @@ public class BaiZeLiSlashEffect {
 
         float cleaveProgress = Mth.clamp(smoothStep(0.0F, 1.0F, exactAge / 7.0F) * 1.14F, 0.0F, 1.18F);
 
-        GenesisShaders.setTime(GenesisShaders.getRibbonShader(), exactAge);
-        VertexConsumer vc = buffer.getBuffer(GenesisRenderType.ribbon);
+        boolean shaderCompatibleMode = GenesisShaderCompat.shouldDeferWorldEffects();
+        VertexConsumer vc;
+        if (shaderCompatibleMode) {
+            vc = buffer.getBuffer(GenesisRenderType.ribbonCompatible);
+        } else {
+            ShaderInstance ribbonShader = GenesisShaders.getRibbonShader();
+            GenesisShaders.setTime(ribbonShader, exactAge);
+            GenesisShaders.setSlashColors(ribbonShader, glowR, glowG, glowB, coreR, coreG, coreB);
+            vc = buffer.getBuffer(GenesisRenderType.ribbon);
+        }
         Vec3 camPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
 
         poseStack.pushPose();
@@ -107,13 +137,23 @@ public class BaiZeLiSlashEffect {
             float rightY = y - normalY * halfWidth;
 
             if (i > 0) {
-                emitVertex(vc, matrix, prevLeftX, prevLeftY, prevU, 0.0F, rColor, gColor, alpha);
-                emitVertex(vc, matrix, leftX, leftY, t, 0.0F, rColor, gColor, alpha);
-                emitVertex(vc, matrix, rightX, rightY, t, 1.0F, rColor, gColor, alpha);
+                if (shaderCompatibleMode) {
+                    emitCompatibleVertex(vc, matrix, prevLeftX, prevLeftY, alpha * 0.45F);
+                    emitCompatibleVertex(vc, matrix, leftX, leftY, alpha * 0.45F);
+                    emitCompatibleVertex(vc, matrix, rightX, rightY, alpha);
 
-                emitVertex(vc, matrix, prevLeftX, prevLeftY, prevU, 0.0F, rColor, gColor, alpha);
-                emitVertex(vc, matrix, rightX, rightY, t, 1.0F, rColor, gColor, alpha);
-                emitVertex(vc, matrix, prevRightX, prevRightY, prevU, 1.0F, rColor, gColor, alpha);
+                    emitCompatibleVertex(vc, matrix, prevLeftX, prevLeftY, alpha * 0.45F);
+                    emitCompatibleVertex(vc, matrix, rightX, rightY, alpha);
+                    emitCompatibleVertex(vc, matrix, prevRightX, prevRightY, alpha);
+                } else {
+                    emitVertex(vc, matrix, prevLeftX, prevLeftY, prevU, 0.0F, rColor, gColor, alpha);
+                    emitVertex(vc, matrix, leftX, leftY, t, 0.0F, rColor, gColor, alpha);
+                    emitVertex(vc, matrix, rightX, rightY, t, 1.0F, rColor, gColor, alpha);
+
+                    emitVertex(vc, matrix, prevLeftX, prevLeftY, prevU, 0.0F, rColor, gColor, alpha);
+                    emitVertex(vc, matrix, rightX, rightY, t, 1.0F, rColor, gColor, alpha);
+                    emitVertex(vc, matrix, prevRightX, prevRightY, prevU, 1.0F, rColor, gColor, alpha);
+                }
             }
 
             prevLeftX = leftX;
@@ -132,6 +172,16 @@ public class BaiZeLiSlashEffect {
 
     private static void emitVertex(VertexConsumer vc, Matrix4f matrix, float x, float y, float u, float v, float r, float g, float alpha) {
         vc.vertex(matrix, x, y, 0.0F).color(r, g, 1.0F, alpha).uv(u, v).endVertex();
+    }
+
+    private void emitCompatibleVertex(VertexConsumer vc, Matrix4f matrix, float x, float y, float alpha) {
+        float brightness = 1.35F;
+        vc.vertex(matrix, x, y, 0.0F)
+                .color(Mth.clamp(glowR * brightness, 0.0F, 1.0F),
+                        Mth.clamp(glowG * brightness, 0.0F, 1.0F),
+                        Mth.clamp(glowB * brightness, 0.0F, 1.0F),
+                        alpha)
+                .endVertex();
     }
 
     private static float smoothStep(float edge0, float edge1, float value) {

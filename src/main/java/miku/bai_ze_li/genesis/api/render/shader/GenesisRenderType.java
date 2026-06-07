@@ -88,4 +88,21 @@ public class GenesisRenderType extends RenderType {
                     .setWriteMaskState(COLOR_WRITE)
                     .createCompositeState(true)
     );
+
+    public static final RenderType ribbonCompatible = RenderType.create(
+            "genesis_ribbon_compatible",
+            DefaultVertexFormat.POSITION_COLOR,
+            VertexFormat.Mode.TRIANGLES,
+            256,
+            true,
+            true,
+            RenderType.CompositeState.builder()
+                    .setShaderState(POSITION_COLOR_SHADER)
+                    .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
+                    .setCullState(NO_CULL)
+                    .setLightmapState(NO_LIGHTMAP)
+                    .setDepthTestState(LEQUAL_DEPTH_TEST)
+                    .setWriteMaskState(COLOR_WRITE)
+                    .createCompositeState(true)
+    );
 }

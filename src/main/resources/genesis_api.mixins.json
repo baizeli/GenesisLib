@@ -7,6 +7,15 @@
   "mixins": [
   ],
   "client": [
+    "client.GameRendererAccessor",
+    "client.GameRendererMixin",
+    "client.GenesisAbstractContainerScreenMixin",
+    "client.GenesisGameMixin",
+    "client.GenesisGuiMixin",
+    "client.GenesisScreenMixin",
+    "client.ItemInHandRendererMixin",
+    "client.ItemRendererMixin",
+    "client.LevelRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

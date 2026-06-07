@@ -217,6 +217,9 @@ tasks.named('processResources', ProcessResources).configure {
 
 // Example for how to get properties into the manifest for reading at runtime.
 tasks.named('jar', Jar).configure {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from("${buildDir}/tmp/compileJava/${mod_id}.refmap.json")
+
     manifest {
         attributes(["Specification-Title"     : mod_id,
                     "Specification-Vendor"    : mod_authors,
@@ -233,8 +236,11 @@ tasks.named('jar', Jar).configure {
 }
 
 tasks.register('devJar', Jar) {
+    dependsOn compileJava, processResources
     archiveClassifier = 'dev'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from sourceSets.main.output
+    from("${buildDir}/tmp/compileJava/${mod_id}.refmap.json")
     manifest {
         attributes(["Specification-Title"     : mod_id,
                     "Specification-Vendor"    : mod_authors,

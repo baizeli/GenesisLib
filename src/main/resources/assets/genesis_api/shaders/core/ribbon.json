@@ -31,6 +31,18 @@
       "type": "float",
       "count": 1,
       "values": [0.0]
+    },
+    {
+      "name": "slashColor",
+      "type": "float",
+      "count": 4,
+      "values": [0.29, 0.65, 1.0, 1.0]
+    },
+    {
+      "name": "slashCoreColor",
+      "type": "float",
+      "count": 4,
+      "values": [1.49, 2.05, 2.5, 1.0]
     }
   ]
 }

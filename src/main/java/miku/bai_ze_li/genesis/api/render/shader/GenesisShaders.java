@@ -173,6 +173,12 @@ public class GenesisShaders {
         return true;
     }
 
+    public static void setSlashColors(ShaderInstance shader, float glowR, float glowG, float glowB,
+                                      float coreR, float coreG, float coreB) {
+        shader.safeGetUniform("slashColor").set(glowR, glowG, glowB, 1.0F);
+        shader.safeGetUniform("slashCoreColor").set(coreR, coreG, coreB, 1.0F);
+    }
+
     public static boolean setScreenSize(ShaderInstance shader) {
         shader.safeGetUniform("screenSize").set((float) getMinecraft().getWindow().getWidth(), (float) getMinecraft().getWindow().getHeight());
         return true;

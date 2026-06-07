@@ -7,33 +7,35 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class SlashEffectAPI {
+    public static final int DEFAULT_COLOR = 0xFF4AA6FF;
 
     @OnlyIn(Dist.CLIENT)
     public static void spawnOnEntity(LivingEntity attacker, Entity target) {
+        spawnOnEntity(attacker, target, DEFAULT_COLOR);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static void spawnOnEntity(LivingEntity attacker, Entity target, int argbColor) {
         Vec3 targetCenter = new Vec3(
                 target.getX(),
-                target.getY() + target.getBbHeight() / 2.0f,
+                target.getY() + target.getBbHeight() / 2.0F,
                 target.getZ()
         );
 
         float yaw = attacker.getYRot();
         float pitch = attacker.getXRot();
 
-        SlashEffectManager.add(new BaiZeLiSlashEffect(targetCenter, yaw, pitch));
+        SlashEffectManager.add(new BaiZeLiSlashEffect(targetCenter, yaw, pitch, argbColor));
     }
+
     @OnlyIn(Dist.CLIENT)
     public static void spawnForward(LivingEntity player, double distance) {
-        // 1. 从眼睛位置开始算
-        Vec3 eyePos = player.getEyePosition();
-        // 2. 获取视线方向向量
-        Vec3 lookVec = player.getLookAngle();
+        spawnForward(player, distance, DEFAULT_COLOR);
+    }
 
-        // 3. 沿着视线往前推 distance 的距离！(第一人称终于能看见了！)
-        Vec3 center = eyePos.add(lookVec.scale(distance));
-
-        float yaw = player.getYRot();
-        float pitch = player.getXRot();
-
-        SlashEffectManager.add(new BaiZeLiSlashEffect(center, yaw, pitch));
+    @OnlyIn(Dist.CLIENT)
+    public static void spawnForward(LivingEntity player, double distance, int argbColor) {
+        Vec3 center = player.getEyePosition().add(player.getLookAngle().scale(distance));
+        SlashEffectManager.add(new BaiZeLiSlashEffect(center, player.getYRot(), player.getXRot(), argbColor));
     }
 }

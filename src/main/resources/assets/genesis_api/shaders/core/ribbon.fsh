@@ -3,14 +3,15 @@
 in vec4 vColor;
 in vec2 vUV;
 
+uniform vec4 slashColor;
+uniform vec4 slashCoreColor;
+
 out vec4 fragColor;
 
 void main() {
     vec2 pos = vUV * 2.0 - 1.0;
 
-
     float lengthMask = 1.0 - pow(abs(pos.x), 2.5);
-
     if (lengthMask <= 0.01) discard;
 
     float cleaveProgress = vColor.r;
@@ -20,23 +21,20 @@ void main() {
     if (isLeftToRight) {
         currentX = 1.0 - currentX;
     }
-    float wipeMask = smoothstep(cleaveProgress, cleaveProgress - 0.3, currentX);
 
+    float wipeMask = smoothstep(cleaveProgress, cleaveProgress - 0.3, currentX);
     float finalMask = lengthMask * wipeMask;
     if (finalMask <= 0.01) discard;
 
     float core = smoothstep(0.15, 0.0, abs(pos.y));
-
-    // 外层的蓝色光晕扩散
     float glow = smoothstep(0.8, 0.0, abs(pos.y));
 
-    vec3 coreColor = vec3(2.5, 2.5, 3.0); // 核心极度白亮
-    vec3 glowColor = vec3(0.2, 0.6, 2.0); // 边缘泛蓝
-
+    vec3 coreColor = slashCoreColor.rgb;
+    vec3 glowColor = slashColor.rgb;
     vec3 finalColor = (glowColor * glow * 1.5) + (coreColor * core * 2.0);
 
     float bladeFront = smoothstep(cleaveProgress - 0.1, cleaveProgress, currentX);
-    finalColor += vec3(1.0, 1.5, 2.0) * bladeFront * 1.5;
+    finalColor += mix(coreColor, glowColor, 0.25) * bladeFront * 1.5;
 
     fragColor = vec4(finalColor, finalMask * vColor.a);
 }
