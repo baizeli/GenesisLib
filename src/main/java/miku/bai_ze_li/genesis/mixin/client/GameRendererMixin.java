@@ -2,7 +2,6 @@ package miku.bai_ze_li.genesis.mixin.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import miku.bai_ze_li.genesis.api.render.effect.SlashEffectManager;
 import miku.bai_ze_li.genesis.api.render.outline.GenesisEffect;
 import miku.bai_ze_li.genesis.api.render.outline.GenesisItemOutlineRegistry;
 import miku.bai_ze_li.genesis.api.render.outline.GenesisOutlineRenderer;
@@ -146,7 +145,6 @@ public abstract class GameRendererMixin {
     )
     private void genesis$renderDeferredOutlines(float partialTicks, long finishTimeNano, boolean renderLevel, CallbackInfo ci) {
         if (renderLevel) {
-            SlashEffectManager.renderDeferred(partialTicks);
             GenesisOutlineRenderer.renderDeferredOutlines(partialTicks, itemInHandRenderer, lightTexture);
         }
     }

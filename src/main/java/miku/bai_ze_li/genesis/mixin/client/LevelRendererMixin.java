@@ -1,7 +1,6 @@
 package miku.bai_ze_li.genesis.mixin.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import miku.bai_ze_li.genesis.api.render.effect.SlashEffectManager;
 import miku.bai_ze_li.genesis.api.render.outline.GenesisOutlineRenderer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.renderer.GameRenderer;
@@ -20,7 +19,6 @@ public class LevelRendererMixin {
                                                      boolean renderBlockOutline, Camera camera,
                                                      GameRenderer gameRenderer, LightTexture lightTexture,
                                                      Matrix4f projectionMatrix, CallbackInfo ci) {
-        SlashEffectManager.captureLevelRenderContext(poseStack, partialTick, camera, projectionMatrix);
         GenesisOutlineRenderer.captureLevelRenderContext(poseStack, partialTick, camera, projectionMatrix);
     }
 }
