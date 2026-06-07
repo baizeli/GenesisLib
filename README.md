@@ -1,1 +1,1 @@
-一个lib，从ING里的东西迁移出来的，包括很多五毛钱特效，主程序是baizeli和gpt
+A library separated from the main mod, including most custom shaders and visual effects, as well as a data pack configuration system. Most features support adding effects via annotations, while a smaller portion supports data packs.
