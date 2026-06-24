@@ -39,6 +39,8 @@ public class GenesisShaders {
     @Nullable
     public static ShaderInstance genesisBloom;
     @Nullable
+    private static ShaderInstance guiBackgroundBlur;
+    @Nullable
     private static ShaderInstance heatWavePostprocessShader;
 
     public static ShaderInstance getHaloShader() {
@@ -58,6 +60,11 @@ public class GenesisShaders {
     @javax.annotation.Nullable
     public static ShaderInstance getGenesisBloom() {
         return genesisBloom;
+    }
+
+    @javax.annotation.Nullable
+    public static ShaderInstance getGuiBackgroundBlur() {
+        return guiBackgroundBlur;
     }
 
     public static ShaderInstance getColorfulShader() {
@@ -157,6 +164,13 @@ public class GenesisShaders {
                 DefaultVertexFormat.POSITION_TEX
         );
         event.registerShader(bloomComposite, s -> genesisBloom = s);
+
+        ShaderInstance tooltipBackgroundBlur = new ShaderInstance(
+                event.getResourceProvider(),
+                new ResourceLocation(GenesisLib.MODID, "gui_background_blur"),
+                DefaultVertexFormat.POSITION_TEX
+        );
+        event.registerShader(tooltipBackgroundBlur, s -> guiBackgroundBlur = s);
     }
 
     public static Minecraft getMinecraft() {
