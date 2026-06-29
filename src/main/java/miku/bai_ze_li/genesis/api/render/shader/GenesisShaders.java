@@ -33,6 +33,8 @@ public class GenesisShaders {
     @Nullable
     private static ShaderInstance trailMaskShader;
     @Nullable
+    private static ShaderInstance liquidReflectionShader;
+    @Nullable
     public static ShaderInstance genesisOutline;
     @Nullable
     public static ShaderInstance genesisBloomBlur;
@@ -90,6 +92,10 @@ public class GenesisShaders {
         return Objects.requireNonNull(trailMaskShader, "Trail mask shader not registered");
     }
 
+    public static ShaderInstance getLiquidReflectionShader() {
+        return Objects.requireNonNull(liquidReflectionShader, "Liquid reflection shader not registered");
+    }
+
     @SubscribeEvent
     public static void registerShaders(RegisterShadersEvent event) throws IOException {
         ResourceProvider resourceProvider = event.getResourceProvider();
@@ -143,6 +149,13 @@ public class GenesisShaders {
                 DefaultVertexFormat.NEW_ENTITY
         );
         event.registerShader(trailMask, shaderInstance -> trailMaskShader = shaderInstance);
+
+        ShaderInstance liquidReflection = new ShaderInstance(
+                resourceProvider,
+                new ResourceLocation(GenesisLib.MODID, "liquid_reflection"),
+                DefaultVertexFormat.POSITION_COLOR_TEX
+        );
+        event.registerShader(liquidReflection, shaderInstance -> liquidReflectionShader = shaderInstance);
 
         ShaderInstance outline = new ShaderInstance(
                 event.getResourceProvider(),
