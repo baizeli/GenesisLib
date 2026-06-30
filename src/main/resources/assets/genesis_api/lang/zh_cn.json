@@ -1,0 +1,20 @@
+{
+  "config.genesis_api.water_refraction": "水体折射",
+  "config.genesis_api.water_refraction.enable": "启用水体折射",
+  "config.genesis_api.water_refraction.quality": "水体折射质量",
+  "config.genesis_api.water_refraction.alpha": "水体透明度",
+  "config.genesis_api.water_refraction.refractionStrength": "折射强度",
+  "config.genesis_api.water_refraction.edgeWobbleStrength": "边缘晃动强度",
+  "config.genesis_api.water_refraction.waveStrength": "水波强度",
+  "config.genesis_api.water_refraction.waveScale": "水波密度",
+  "config.genesis_api.water_refraction.flowSpeed": "流动速度",
+  "config.genesis_api.water_refraction.distanceFadeStart": "距离衰减起点",
+  "config.genesis_api.water_refraction.distanceFadeEnd": "距离衰减终点",
+  "config.genesis_api.water_refraction.edgeFadeStrength": "边缘增强强度",
+  "config.genesis_api.water_refraction.affectVanillaWater": "影响原版水",
+  "config.genesis_api.water_refraction.affectCustomFluids": "影响自定义流体",
+  "config.genesis_api.water_refraction.quality.off": "关闭",
+  "config.genesis_api.water_refraction.quality.low": "低",
+  "config.genesis_api.water_refraction.quality.medium": "中",
+  "config.genesis_api.water_refraction.quality.high": "高"
+}

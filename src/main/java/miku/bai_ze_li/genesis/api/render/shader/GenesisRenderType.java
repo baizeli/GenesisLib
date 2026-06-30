@@ -1,6 +1,7 @@
 package miku.bai_ze_li.genesis.api.render.shader;
 
 import miku.bai_ze_li.genesis.api.render.cosmic.AvaritiaShaders;
+import miku.bai_ze_li.genesis.api.render.water.GenesisWaterRenderer;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.renderer.RenderType;
@@ -13,6 +14,12 @@ import java.util.concurrent.ConcurrentHashMap;
 public class GenesisRenderType extends RenderType {
     public GenesisRenderType(String p_173178_, VertexFormat p_173179_, VertexFormat.Mode p_173180_, int p_173181_, boolean p_173182_, boolean p_173183_, Runnable p_173184_, Runnable p_173185_) {super(p_173178_, p_173179_, p_173180_, p_173181_, p_173182_, p_173183_, p_173184_, p_173185_);}
     private static final Map<ResourceLocation, RenderType> DELAYED_TRAILS = new ConcurrentHashMap<>();
+    private static final TexturingStateShard SOURCE_WATER_TEXTURING = new TexturingStateShard(
+            "genesis_source_water_texturing",
+            GenesisWaterRenderer::applyWaterUniforms,
+            () -> {
+            }
+    );
 
     public static RenderType delayedTrail(ResourceLocation texture) {
         return DELAYED_TRAILS.computeIfAbsent(texture, location -> RenderType.create(
@@ -105,4 +112,28 @@ public class GenesisRenderType extends RenderType {
                     .setWriteMaskState(COLOR_WRITE)
                     .createCompositeState(true)
     );
+
+    public static final RenderType sourceWater = RenderType.create(
+            "genesis_source_water",
+            DefaultVertexFormat.BLOCK,
+            VertexFormat.Mode.QUADS,
+            2097152,
+            true,
+            true,
+            RenderType.CompositeState.builder()
+                    .setShaderState(new ShaderStateShard(GenesisShaders::getWaterRefractionShaderOrFallback))
+                    .setTextureState(new TextureStateShard(InventoryMenu.BLOCK_ATLAS, false, true))
+                    .setTexturingState(SOURCE_WATER_TEXTURING)
+                    .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
+                    .setCullState(NO_CULL)
+                    .setLightmapState(LIGHTMAP)
+                    .setOverlayState(NO_OVERLAY)
+                    .setDepthTestState(LEQUAL_DEPTH_TEST)
+                    .setWriteMaskState(COLOR_DEPTH_WRITE)
+                    .createCompositeState(true)
+    );
+
+    public static RenderType sourceWater() {
+        return GenesisWaterRenderer.useSpecialWaterRenderType() ? sourceWater : RenderType.translucent();
+    }
 }
