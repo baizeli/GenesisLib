@@ -33,6 +33,8 @@ public class GenesisShaders {
     @Nullable
     private static ShaderInstance trailMaskShader;
     @Nullable
+    private static ShaderInstance meteorStarShader;
+    @Nullable
     public static ShaderInstance genesisOutline;
     @Nullable
     public static ShaderInstance genesisBloomBlur;
@@ -90,6 +92,10 @@ public class GenesisShaders {
         return Objects.requireNonNull(trailMaskShader, "Trail mask shader not registered");
     }
 
+    public static ShaderInstance getMeteorStarShader() {
+        return Objects.requireNonNull(meteorStarShader, "Meteor star shader not registered");
+    }
+
     @SubscribeEvent
     public static void registerShaders(RegisterShadersEvent event) throws IOException {
         ResourceProvider resourceProvider = event.getResourceProvider();
@@ -144,6 +150,13 @@ public class GenesisShaders {
         );
         event.registerShader(trailMask, shaderInstance -> trailMaskShader = shaderInstance);
 
+        ShaderInstance meteorStar = new ShaderInstance(
+                resourceProvider,
+                new ResourceLocation(GenesisLib.MODID, "meteor_star"),
+                DefaultVertexFormat.POSITION_COLOR
+        );
+        event.registerShader(meteorStar, shaderInstance -> meteorStarShader = shaderInstance);
+
         ShaderInstance outline = new ShaderInstance(
                 event.getResourceProvider(),
                 new ResourceLocation(GenesisLib.MODID, "held_item_outline"),
@@ -185,6 +198,12 @@ public class GenesisShaders {
     public static boolean setTime(ShaderInstance shader, float pk) {
         shader.safeGetUniform("time").set(pk);
         return true;
+    }
+
+    public static void setMeteorStarTime(float time) {
+        if (meteorStarShader != null) {
+            meteorStarShader.safeGetUniform("Time").set(time);
+        }
     }
 
     public static void setSlashColors(ShaderInstance shader, float glowR, float glowG, float glowB,
