@@ -15,8 +15,7 @@
     "client.GenesisScreenMixin",
     "client.ItemInHandRendererMixin",
     "client.ItemRendererMixin",
-    "client.LevelRendererMixin",
-    "client.RenderTypeMixin"
+    "client.LevelRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

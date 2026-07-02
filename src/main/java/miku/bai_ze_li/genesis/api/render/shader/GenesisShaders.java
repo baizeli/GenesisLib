@@ -4,7 +4,6 @@ import miku.bai_ze_li.genesis.api.render.cosmic.AvaritiaShaders;
 import miku.bai_ze_li.genesis.GenesisLib;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceProvider;
@@ -43,8 +42,6 @@ public class GenesisShaders {
     private static ShaderInstance guiBackgroundBlur;
     @Nullable
     private static ShaderInstance heatWavePostprocessShader;
-    @Nullable
-    private static ShaderInstance waterRefractionShader;
 
     public static ShaderInstance getHaloShader() {
         return Objects.requireNonNull(haloShader, "Halo shader not registered");
@@ -91,15 +88,6 @@ public class GenesisShaders {
 
     public static ShaderInstance getTrailMaskShader() {
         return Objects.requireNonNull(trailMaskShader, "Trail mask shader not registered");
-    }
-
-    @Nullable
-    public static ShaderInstance getWaterRefractionShader() {
-        return waterRefractionShader;
-    }
-
-    public static ShaderInstance getWaterRefractionShaderOrFallback() {
-        return waterRefractionShader != null ? waterRefractionShader : GameRenderer.getRendertypeTranslucentShader();
     }
 
     @SubscribeEvent
@@ -183,13 +171,6 @@ public class GenesisShaders {
                 DefaultVertexFormat.POSITION_TEX
         );
         event.registerShader(tooltipBackgroundBlur, s -> guiBackgroundBlur = s);
-
-        ShaderInstance waterRefraction = new ShaderInstance(
-                event.getResourceProvider(),
-                new ResourceLocation(GenesisLib.MODID, "source_water_refraction"),
-                DefaultVertexFormat.BLOCK
-        );
-        event.registerShader(waterRefraction, s -> waterRefractionShader = s);
     }
 
     public static Minecraft getMinecraft() {
